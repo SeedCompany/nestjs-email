@@ -13,9 +13,22 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "type-check": "tsc -p . --noEmit"
   },
+  "dependencies": {
+    "@nestjs/common": "^7.6.4",
+    "aws-sdk": "^2.815.0",
+    "html-to-text": "^5.1.1",
+    "mjml": "^4.7.1",
+    "mjml-react": "^1.0.62",
+    "open": "^7.3.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "tempy": "^1.0.0"
+  },
   "peerDependencies": {
     "@nestjs/common": "^7.0.0",
-    "@nestjs/core": "^7.0.0",
+    "aws-sdk": "^2.0.0",
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0",
     "reflect-metadata": "^0.1.12"
   },
   "devDependencies": {
