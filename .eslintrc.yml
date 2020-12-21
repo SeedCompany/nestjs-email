@@ -1,0 +1,5 @@
+root: true
+plugins:
+  - '@seedcompany'
+extends:
+  - plugin:@seedcompany/nestjs

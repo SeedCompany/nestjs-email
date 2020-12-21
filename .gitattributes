@@ -1,0 +1,3 @@
+# Hide yarn from GitHub's language detection & suppress in diffs
+/.yarn/** linguist-generated
+yarn.lock linguist-generated

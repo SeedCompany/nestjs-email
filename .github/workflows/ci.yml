@@ -1,0 +1,47 @@
+name: CI
+on:
+  pull_request:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 10.x
+
+      - name: Yarn cache
+        uses: actions/cache@v1
+        id: yarn-cache
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}-${{ hashFiles('.yarnrc.yml') }}
+
+      - name: Install dependencies
+        run: yarn install --immutable
+        if: steps.yarn-cache.outputs.cache-hit != 'true'
+
+      - name: Dedupe dependencies
+        run: yarn dedupe --check
+
+      - name: Check TypeScript
+        run: yarn type-check
+
+      - name: Lint
+        run: yarn eslint . --ext .ts,.tsx  --max-warnings 0 # no fix
+
+      - name: Test
+        run: yarn test --passWithNoTests
+
+      - name: Build
+        run: yarn build
+
+      - name: Publish
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        run: yarn semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
