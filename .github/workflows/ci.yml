@@ -37,7 +37,7 @@ jobs:
         run: yarn test --passWithNoTests
 
       - name: Build
-        run: yarn build
+        run: yarn build --outDir .
 
       - name: Publish
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'

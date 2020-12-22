@@ -1,20 +1,18 @@
 {
   "name": "@seedcompany/nestjs-email",
-  "version": "0.0.1",
   "description": "NestJS library to generate emails via JSX and send them via AWS",
   "license": "MIT",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
   "files": [
-    "dist/**/*",
-    "dist/templates",
-    "src/**/*"
+    "*.d.ts",
+    "*.js",
+    "*.js.map",
+    "templates"
   ],
   "engines": {
     "node": ">=12"
   },
   "scripts": {
-    "build": "rimraf dist && tsc -b .",
+    "build": "rimraf dist && tsc -p .",
     "lint": "eslint --ext .ts,.tsx --fix --max-warnings 0 .",
     "test": "jest",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
