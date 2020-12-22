@@ -1,5 +1,5 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
-import type { SES } from 'aws-sdk';
+import { SES } from 'aws-sdk';
 import type { SendEmailRequest } from 'aws-sdk/clients/ses';
 import { promises as fs } from 'fs';
 import { fromString as htmlToText } from 'html-to-text';
