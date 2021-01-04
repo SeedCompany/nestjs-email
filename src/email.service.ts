@@ -8,7 +8,7 @@ import { render } from 'mjml-react';
 import * as openUrl from 'open';
 import { createElement, ReactElement } from 'react';
 import { file as tempFile } from 'tempy';
-import { EMAIL_MODULE_OPTIONS, EmailOptions } from './email.options';
+import { EMAIL_MODULE_OPTIONS, EmailOptions, SES_TOKEN } from './email.options';
 import { RenderForText } from './templates/text-rendering';
 import { SubjectCollector } from './templates/title';
 import { Many, many, sleep } from './utils';
@@ -18,7 +18,7 @@ export class EmailService {
   private readonly logger = new Logger(EmailService.name);
 
   constructor(
-    private readonly ses: SES,
+    @Inject(SES_TOKEN) private readonly ses: SES,
     @Inject(EMAIL_MODULE_OPTIONS) private readonly options: EmailOptions
   ) {}
 

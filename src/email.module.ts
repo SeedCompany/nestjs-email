@@ -4,6 +4,7 @@ import {
   EMAIL_MODULE_OPTIONS,
   EmailModuleOptions,
   EmailOptions,
+  SES_TOKEN,
 } from './email.options';
 import { EmailService } from './email.service';
 import { MaybeAsync } from './utils';
@@ -34,7 +35,7 @@ export class EmailModule {
           useValue: resolveOptions(options),
         },
         {
-          provide: SES,
+          provide: SES_TOKEN,
           useFactory: sesFromOptions,
           inject: [EMAIL_MODULE_OPTIONS],
         },
@@ -65,7 +66,7 @@ export class EmailModule {
           ? []
           : [{ provide: options.useClass!, useClass: options.useClass! }]),
         {
-          provide: SES,
+          provide: SES_TOKEN,
           useFactory: sesFromOptions,
           inject: [EMAIL_MODULE_OPTIONS],
         },

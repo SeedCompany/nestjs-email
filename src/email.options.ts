@@ -2,6 +2,8 @@ import { SES } from 'aws-sdk';
 import { ReactElement } from 'react';
 import { Many } from './utils';
 
+export const SES_TOKEN = Symbol('SES');
+
 export const EMAIL_MODULE_OPTIONS = Symbol('EMAIL_MODULE_OPTIONS');
 
 export interface EmailModuleOptions {
