@@ -1,4 +1,4 @@
-import { DynamicModule, Module, ModuleMetadata, Type } from '@nestjs/common';
+import { DynamicModule, Module, Type } from '@nestjs/common';
 import { SES } from 'aws-sdk';
 import {
   EMAIL_MODULE_OPTIONS,
@@ -14,7 +14,7 @@ export interface EmailOptionsFactory {
 }
 
 export interface EmailModuleAsyncOptions
-  extends Pick<ModuleMetadata, 'imports'> {
+  extends Pick<DynamicModule, 'imports' | 'global'> {
   useExisting?: Type<EmailOptionsFactory>;
   useClass?: Type<EmailOptionsFactory>;
   useFactory?: (...args: any[]) => MaybeAsync<EmailModuleOptions>;
@@ -26,7 +26,9 @@ export interface EmailModuleAsyncOptions
   exports: [EmailService],
 })
 export class EmailModule {
-  static forRoot(options: EmailModuleOptions): DynamicModule {
+  static forRoot(
+    options: EmailModuleOptions & Pick<DynamicModule, 'global'>
+  ): DynamicModule {
     return {
       module: EmailModule,
       providers: [
@@ -39,6 +41,7 @@ export class EmailModule {
           useValue: sesFromOptions(options),
         },
       ],
+      global: options.global,
     };
   }
 
@@ -70,6 +73,7 @@ export class EmailModule {
           inject: [EMAIL_MODULE_OPTIONS],
         },
       ],
+      global: options.global,
     };
   }
 }
