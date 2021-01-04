@@ -36,8 +36,7 @@ export class EmailModule {
         },
         {
           provide: SES_TOKEN,
-          useFactory: sesFromOptions,
-          inject: [EMAIL_MODULE_OPTIONS],
+          useValue: sesFromOptions(options),
         },
       ],
     };
