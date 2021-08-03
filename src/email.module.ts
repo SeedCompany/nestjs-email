@@ -1,5 +1,5 @@
+import { SESv2Client as SES } from '@aws-sdk/client-sesv2';
 import { DynamicModule, Module, Type } from '@nestjs/common';
-import { SES } from 'aws-sdk';
 import {
   EMAIL_MODULE_OPTIONS,
   EmailModuleOptions,

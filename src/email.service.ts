@@ -1,6 +1,5 @@
+import { SendEmailCommand, SESv2Client as SES } from '@aws-sdk/client-sesv2';
 import { Inject, Injectable, Logger } from '@nestjs/common';
-import { SES } from 'aws-sdk';
-import type { SendEmailRequest } from 'aws-sdk/clients/ses';
 import { promises as fs } from 'fs';
 import { fromString as htmlToText } from 'html-to-text';
 import * as textFormatters from 'html-to-text/lib/formatter';
@@ -63,19 +62,21 @@ export class EmailService {
   ) {
     const { from, replyTo } = this.options;
     const utf8 = (data: string) => ({ Data: data, Charset: 'UTF-8' });
-    const req: SendEmailRequest = {
-      Source: from,
+    const command = new SendEmailCommand({
+      FromEmailAddress: from,
       Destination: {
         ToAddresses: many(to).slice(),
       },
       ReplyToAddresses: many(replyTo).slice(),
-      Message: {
-        Subject: utf8(subject),
-        Body: { Html: utf8(html), Text: utf8(text) },
+      Content: {
+        Simple: {
+          Subject: utf8(subject),
+          Body: { Html: utf8(html), Text: utf8(text) },
+        },
       },
-    };
+    });
     try {
-      await this.ses.sendEmail(req).promise();
+      await this.ses.send(command);
     } catch (e) {
       this.logger.error('Failed to send email', e.stack);
       throw e;

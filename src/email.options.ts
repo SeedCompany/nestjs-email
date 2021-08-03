@@ -1,4 +1,4 @@
-import { SES } from 'aws-sdk';
+import { SESv2Client as SES, SESv2ClientConfig } from '@aws-sdk/client-sesv2';
 import { ReactElement } from 'react';
 import { Many } from './utils';
 
@@ -12,7 +12,7 @@ export interface EmailModuleOptions {
   send?: boolean;
   replyTo?: Many<string>;
   wrappers?: ReadonlyArray<(el: ReactElement) => ReactElement>;
-  ses?: SES | SES.Types.ClientConfiguration;
+  ses?: SES | SESv2ClientConfig;
 }
 
 export type EmailOptions = Required<Readonly<Omit<EmailModuleOptions, 'ses'>>>;
