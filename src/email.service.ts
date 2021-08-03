@@ -1,7 +1,7 @@
 import { SendEmailCommand, SESv2Client as SES } from '@aws-sdk/client-sesv2';
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { promises as fs } from 'fs';
-import { fromString as htmlToText } from 'html-to-text';
+import { convert as htmlToText } from 'html-to-text';
 import * as textFormatters from 'html-to-text/lib/formatter';
 import { render } from 'mjml-react';
 import * as openUrl from 'open';
@@ -96,17 +96,17 @@ export class EmailService {
     );
 
     const text = htmlToText(htmlForText, {
-      ignoreImage: true,
-      hideLinkHrefIfSameAsText: true,
-      tables: true, // Filter manually below
-      format: {
+      selectors: [
+        { selector: 'img', format: 'skip' },
+        { selector: 'a', options: { hideLinkHrefIfSameAsText: true } },
+      ],
+      formatters: {
         // mjml uses `role="presentation"` for non-table tables, skip those.
         // actual tables get rendered as normal.
-        table: (el, walk, options) => {
-          return el.attribs.role === 'presentation'
-            ? walk(el.children || [], options)
-            : textFormatters.table(el, walk, options);
-        },
+        table: (el, walk, builder, options) =>
+          el.attribs.role === 'presentation'
+            ? walk(el.children, builder)
+            : textFormatters.dataTable(el, walk, builder, options),
       },
     });
 
