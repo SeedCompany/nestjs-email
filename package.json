@@ -3,7 +3,7 @@
   "description": "NestJS library to generate emails via JSX and send them via AWS",
   "license": "MIT",
   "files": [
-    "*.patch",
+    "patches",
     "*.d.ts",
     "*.js",
     "*.js.map",
