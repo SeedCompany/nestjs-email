@@ -86,13 +86,18 @@ export class EmailService {
   private renderHtml(templateEl: ReactElement) {
     const collector = new SubjectCollector();
 
-    const { html } = render(collector.collect(templateEl));
+    const { html } = render(collector.collect(templateEl), {
+      minify: false,
+    });
     return { html, subject: collector.subject };
   }
 
   private renderText(templateEl: ReactElement) {
     const { html: htmlForText } = render(
-      createElement(RenderForText, null, templateEl)
+      createElement(RenderForText, null, templateEl),
+      {
+        minify: false,
+      }
     );
 
     const text = htmlToText(htmlForText, {
