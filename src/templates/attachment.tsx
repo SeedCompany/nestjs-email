@@ -1,9 +1,7 @@
-import { MessageAttachment } from 'emailjs/smtp/message';
 import { createContext, useContext } from 'react';
 import * as React from 'react';
 
-interface AttachmentProps
-  extends Pick<MessageAttachment, 'charset' | 'method'> {
+interface AttachmentProps {
   /** The file data */
   data: string;
   /** The file's content-type */

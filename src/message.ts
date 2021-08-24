@@ -1,5 +1,8 @@
-import { Message, MessageHeaders } from 'emailjs';
+// eslint-disable-next-line import-helpers/order-imports
 import { many } from './utils';
+
+// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
+const Message = require('emailjs');
 
 export class EmailMessage extends Message {
   readonly templateName: string;
@@ -10,16 +13,16 @@ export class EmailMessage extends Message {
     templateName,
     html,
     ...headers
-  }: Partial<MessageHeaders> & { templateName: string; html: string }) {
+  }: Partial<any> & { templateName: string; html: string }) {
     super(headers);
     this.templateName = templateName;
     this.to = headers.to ? many(headers.to) : [];
     this.html = html;
   }
 
-  read(callback?: (err: Error, buffer: string) => void) {
+  read(callback?: (err: Error | undefined, buffer: string) => void) {
     return new Promise<string>((resolve, reject) => {
-      super.read((err, buffer) => {
+      super.read((err: Error | undefined, buffer: string) => {
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         err ? reject(err) : resolve(buffer);
         callback?.(err, buffer);
