@@ -2,9 +2,9 @@
 import { many } from './utils';
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
-const Message = require('emailjs');
+const EmailJS = require('emailjs');
 
-export class EmailMessage extends Message {
+export class EmailMessage extends EmailJS.Message {
   readonly templateName: string;
   readonly to: readonly string[];
   readonly html: string;
