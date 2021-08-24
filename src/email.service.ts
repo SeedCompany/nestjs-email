@@ -8,6 +8,8 @@ import * as openUrl from 'open';
 import { createElement, ReactElement } from 'react';
 import { file as tempFile } from 'tempy';
 import { EMAIL_MODULE_OPTIONS, EmailOptions, SES_TOKEN } from './email.options';
+import { EmailMessage } from './message';
+import { AttachmentCollector } from './templates/attachment';
 import { RenderForText } from './templates/text-rendering';
 import { SubjectCollector } from './templates/title';
 import { Many, many, sleep } from './utils';
@@ -26,57 +28,75 @@ export class EmailService {
     template: (props: P) => ReactElement,
     props: P
   ): Promise<void> {
-    const tos = many(to).join(', ');
-    this.logger.debug(`Sending ${template.name} email to ${tos}`);
-
     const { send, open } = this.options;
 
+    const msg = await this.render(to, template, props);
+
+    if (send) {
+      await this.sendMessage(msg);
+      return;
+    }
+    this.logger.debug(
+      `Would have sent ${msg.templateName} email if enabled to ${msg.to.join(
+        ', '
+      )}`
+    );
+
+    if (open) {
+      await this.openEmail(msg.html);
+    }
+  }
+
+  async render<P>(
+    to: Many<string>,
+    template: (props: P) => ReactElement,
+    props: P
+  ) {
     const docEl = this.options.wrappers.reduceRight(
       (prev: ReactElement, wrap) => wrap(prev),
       createElement(template, props)
     );
 
-    const { html, subject } = this.renderHtml(docEl);
+    const { html, subject, attachments } = this.renderHtml(docEl);
     const text = this.renderText(docEl);
-
-    if (send) {
-      await this.sesSend(to, subject, html, text);
-      this.logger.debug(`Sent ${template.name} email to ${tos}`);
-      return;
-    }
-
+    const message = new EmailMessage({
+      templateName: template.name,
+      to: to as string[],
+      from: this.options.from,
+      ...(!this.options.replyTo || this.options.replyTo.length === 0
+        ? {}
+        : {
+            'reply-to': many(this.options.replyTo).join(', '),
+          }),
+      subject,
+      text,
+      html,
+      attachment: [
+        { data: html, alternative: true },
+        ...attachments.map((file) => ({ ...file })),
+      ],
+    });
     this.logger.debug(
-      `Would have sent ${template.name} email if enabled to ${tos}`
+      `Rendered ${message.templateName} email for ${message.to.join(', ')}`
     );
 
-    if (open) {
-      await this.openEmail(html);
-    }
+    return message;
   }
 
-  private async sesSend(
-    to: Many<string>,
-    subject: string,
-    html: string,
-    text: string
-  ) {
-    const { from, replyTo } = this.options;
-    const utf8 = (data: string) => ({ Data: data, Charset: 'UTF-8' });
+  async sendMessage(msg: EmailMessage) {
+    const encoded = await msg.read();
     const command = new SendEmailCommand({
-      FromEmailAddress: from,
-      Destination: {
-        ToAddresses: many(to).slice(),
-      },
-      ReplyToAddresses: many(replyTo).slice(),
       Content: {
-        Simple: {
-          Subject: utf8(subject),
-          Body: { Html: utf8(html), Text: utf8(text) },
+        Raw: {
+          Data: Buffer.from(encoded),
         },
       },
     });
     try {
       await this.ses.send(command);
+      this.logger.debug(
+        `Sent ${msg.templateName} email to ${msg.to.join(', ')}`
+      );
     } catch (e) {
       this.logger.error('Failed to send email', e.stack);
       throw e;
@@ -85,11 +105,19 @@ export class EmailService {
 
   private renderHtml(templateEl: ReactElement) {
     const collector = new SubjectCollector();
+    const attachments = new AttachmentCollector();
 
-    const { html } = render(collector.collect(templateEl), {
-      minify: false,
-    });
-    return { html, subject: collector.subject };
+    const { html } = render(
+      attachments.collect(collector.collect(templateEl)),
+      {
+        minify: false,
+      }
+    );
+    return {
+      html,
+      subject: collector.subject,
+      attachments: attachments.attachments,
+    };
   }
 
   private renderText(templateEl: ReactElement) {
