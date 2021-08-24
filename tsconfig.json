@@ -9,7 +9,6 @@
     "sourceMap": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true, // Needed for emailjs
     "strict": true,
     "noImplicitAny": true,
     "noImplicitThis": true,

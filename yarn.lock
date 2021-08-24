@@ -1831,7 +1831,7 @@ __metadata:
     "@types/mjml-react": ^2.0.0
     "@types/node": ^16.4.10
     "@types/react-dom": ^17.0.9
-    emailjs: ^3.5.0
+    emailjs: "patch:emailjs@3.5.0#./patches/emailjs.patch"
     eslint: ^7.32.0
     html-to-text: ^8.0.0
     husky: ^4.3.8
@@ -4622,10 +4622,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"emailjs@npm:^3.5.0":
+emailjs@3.5.0:
   version: 3.5.0
   resolution: "emailjs@npm:3.5.0"
   checksum: a11934896b3a35d86dad598dd5aca140e2a3ff201a6bbcb41103019d718409561560bb06adac10637640af546df4014145c0d9437ae9773f4af5bd718dbb3d9a
+  languageName: node
+  linkType: hard
+
+"emailjs@patch:emailjs@3.5.0#./patches/emailjs.patch::locator=%40seedcompany%2Fnestjs-email%40workspace%3A.":
+  version: 3.5.0
+  resolution: "emailjs@patch:emailjs@npm%3A3.5.0#./patches/emailjs.patch::version=3.5.0&hash=d399c8&locator=%40seedcompany%2Fnestjs-email%40workspace%3A."
+  checksum: 8f5bca86c00afb3a89b809a46cd0f05674cf46c9ba030a817ad63eaebd8e380dd86cebb55b1e21718341c73652fd9445d16176f7a392f8d720c579ff25a6db30
   languageName: node
   linkType: hard
 
