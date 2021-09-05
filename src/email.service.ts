@@ -84,7 +84,7 @@ export class EmailService {
   }
 
   async sendMessage(msg: EmailMessage) {
-    const encoded = await msg.read();
+    const encoded = await msg.readAsync();
     const command = new SendEmailCommand({
       Content: {
         Raw: {

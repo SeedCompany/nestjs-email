@@ -1831,7 +1831,7 @@ __metadata:
     "@types/mjml-react": ^2.0.0
     "@types/node": ^16.4.10
     "@types/react-dom": ^17.0.9
-    emailjs: ^3.5.0
+    emailjs: ^3.6.0
     eslint: ^7.32.0
     html-to-text: ^8.0.0
     husky: ^4.3.8
@@ -4622,10 +4622,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"emailjs@npm:^3.5.0":
-  version: 3.5.0
-  resolution: "emailjs@npm:3.5.0"
-  checksum: a11934896b3a35d86dad598dd5aca140e2a3ff201a6bbcb41103019d718409561560bb06adac10637640af546df4014145c0d9437ae9773f4af5bd718dbb3d9a
+"emailjs@npm:^3.6.0":
+  version: 3.6.0
+  resolution: "emailjs@npm:3.6.0"
+  checksum: 472be88ac2bbc62718597927af617715e313c1168f1f463cdc0ed8bade4f709b7169b5421f370bd06660aba25af6b81a39aacdbf6521e0200128286e7c0afd1b
   languageName: node
   linkType: hard
 

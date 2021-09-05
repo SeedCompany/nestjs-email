@@ -21,7 +21,7 @@
   "dependencies": {
     "@aws-sdk/client-sesv2": "^3.24.0",
     "@nestjs/common": "^7.6.4 || ^8.0.0",
-    "emailjs": "^3.5.0",
+    "emailjs": "^3.6.0",
     "html-to-text": "^8.0.0",
     "mjml": "^4.10.2",
     "mjml-react": "^2.0.0",
