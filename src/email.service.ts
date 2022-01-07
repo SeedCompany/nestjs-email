@@ -98,7 +98,10 @@ export class EmailService {
         `Sent ${msg.templateName} email to ${msg.to.join(', ')}`
       );
     } catch (e) {
-      this.logger.error('Failed to send email', e.stack);
+      this.logger.error(
+        'Failed to send email',
+        e instanceof Error ? e.stack : e
+      );
       throw e;
     }
   }
