@@ -45,7 +45,9 @@ export class EmailModule {
     };
   }
 
-  static forRootAsync(options: EmailModuleAsyncOptions): DynamicModule {
+  static forRootAsync(
+    options: EmailModuleAsyncOptions & Pick<DynamicModule, 'global'>
+  ): DynamicModule {
     return {
       module: EmailModule,
       imports: options.imports,
