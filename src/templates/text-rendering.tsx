@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { createContext, FC, useContext } from 'react';
 
 const RenderForTextContext = createContext(false);

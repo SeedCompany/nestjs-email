@@ -1,6 +1,5 @@
 import { MjmlTitle } from 'mjml-react';
-import * as React from 'react';
-import { createContext, useContext } from 'react';
+import { createContext, ReactNode, useContext } from 'react';
 
 interface SubjectContextType {
   subject?: string;
@@ -11,7 +10,7 @@ const SubjectContext = createContext<SubjectContextType>({});
 export class SubjectCollector {
   private context?: SubjectContextType;
 
-  collect(children: React.ReactNode) {
+  collect(children: ReactNode) {
     this.context = {};
     return (
       <SubjectContext.Provider value={this.context}>

@@ -1,6 +1,5 @@
 import { MessageAttachment } from 'emailjs/smtp/message';
-import { createContext, useContext } from 'react';
-import * as React from 'react';
+import { createContext, ReactNode, useContext } from 'react';
 
 interface AttachmentProps
   extends Pick<MessageAttachment, 'charset' | 'method'> {
@@ -17,7 +16,7 @@ const AttachmentContext = createContext<AttachmentProps[]>([]);
 export class AttachmentCollector {
   private context?: AttachmentProps[];
 
-  collect(children?: React.ReactNode) {
+  collect(children?: ReactNode) {
     this.context = [];
     return (
       <AttachmentContext.Provider value={this.context}>

@@ -76,7 +76,6 @@ export class EmailConfig implements EmailOptionsFactory {
 ```tsx
 import * as Mjml from '@seedcompany/nestjs-email/templates';
 import { Mjml as MjmlRoot } from 'mjml-react';
-import * as React from 'react';
 
 export function ForgotPassword({ name, url }: { name: string, url: string }) {
   return (
