@@ -3,3 +3,11 @@ plugins:
   - '@seedcompany'
 extends:
   - plugin:@seedcompany/nestjs
+rules:
+  '@typescript-eslint/ban-types':
+    - error
+    - types:
+        # Allow {} assuming usage is intersected with another type enforcing non-nullable
+        # Possibly related: https://github.com/typescript-eslint/typescript-eslint/issues/5947
+        '{}': false
+      extendDefaults: true

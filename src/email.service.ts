@@ -23,7 +23,7 @@ export class EmailService {
     @Inject(EMAIL_MODULE_OPTIONS) private readonly options: EmailOptions,
   ) {}
 
-  async send<P>(
+  async send<P extends {}>(
     to: Many<string>,
     template: (props: P) => ReactElement,
     props: P,
@@ -47,7 +47,7 @@ export class EmailService {
     }
   }
 
-  async render<P>(
+  async render<P extends {}>(
     to: Many<string>,
     template: (props: P) => ReactElement,
     props: P,
