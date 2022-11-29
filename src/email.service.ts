@@ -20,13 +20,13 @@ export class EmailService {
 
   constructor(
     @Inject(SES_TOKEN) private readonly ses: SES,
-    @Inject(EMAIL_MODULE_OPTIONS) private readonly options: EmailOptions
+    @Inject(EMAIL_MODULE_OPTIONS) private readonly options: EmailOptions,
   ) {}
 
   async send<P>(
     to: Many<string>,
     template: (props: P) => ReactElement,
-    props: P
+    props: P,
   ): Promise<void> {
     const { send, open } = this.options;
 
@@ -38,8 +38,8 @@ export class EmailService {
     }
     this.logger.debug(
       `Would have sent ${msg.templateName} email if enabled to ${msg.to.join(
-        ', '
-      )}`
+        ', ',
+      )}`,
     );
 
     if (open) {
@@ -50,11 +50,11 @@ export class EmailService {
   async render<P>(
     to: Many<string>,
     template: (props: P) => ReactElement,
-    props: P
+    props: P,
   ) {
     const docEl = this.options.wrappers.reduceRight(
       (prev: ReactElement, wrap) => wrap(prev),
-      createElement(template, props)
+      createElement(template, props),
     );
 
     const { html, subject, attachments } = this.renderHtml(docEl);
@@ -77,7 +77,7 @@ export class EmailService {
       ],
     });
     this.logger.debug(
-      `Rendered ${message.templateName} email for ${message.to.join(', ')}`
+      `Rendered ${message.templateName} email for ${message.to.join(', ')}`,
     );
 
     return message;
@@ -95,12 +95,12 @@ export class EmailService {
     try {
       await this.ses.send(command);
       this.logger.debug(
-        `Sent ${msg.templateName} email to ${msg.to.join(', ')}`
+        `Sent ${msg.templateName} email to ${msg.to.join(', ')}`,
       );
     } catch (e) {
       this.logger.error(
         'Failed to send email',
-        e instanceof Error ? e.stack : e
+        e instanceof Error ? e.stack : e,
       );
       throw e;
     }
@@ -114,7 +114,7 @@ export class EmailService {
       attachments.collect(collector.collect(templateEl)),
       {
         minify: false,
-      }
+      },
     );
     return {
       html,
@@ -128,7 +128,7 @@ export class EmailService {
       createElement(RenderForText, null, templateEl),
       {
         minify: false,
-      }
+      },
     );
 
     const text = htmlToText(htmlForText, {

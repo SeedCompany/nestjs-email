@@ -27,7 +27,7 @@ export interface EmailModuleAsyncOptions
 })
 export class EmailModule {
   static forRoot(
-    options: EmailModuleOptions & Pick<DynamicModule, 'global'>
+    options: EmailModuleOptions & Pick<DynamicModule, 'global'>,
   ): DynamicModule {
     return {
       module: EmailModule,

@@ -22,7 +22,7 @@ export class SubjectCollector {
   get subject(): string {
     if (!this.context?.subject) {
       throw new Error(
-        '<Title> must be used to provide a subject for the email'
+        '<Title> must be used to provide a subject for the email',
       );
     }
     return this.context.subject;
