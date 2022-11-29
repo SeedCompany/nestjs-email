@@ -1,4 +1,4 @@
-import { MjmlTitle } from 'mjml-react';
+import { MjmlTitle } from '@faire/mjml-react';
 import { createContext, ReactNode, useContext } from 'react';
 
 interface SubjectContextType {

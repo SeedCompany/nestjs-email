@@ -1,9 +1,9 @@
 import { SendEmailCommand, SESv2Client as SES } from '@aws-sdk/client-sesv2';
+import { render } from '@faire/mjml-react/dist/src/utils/render';
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { promises as fs } from 'fs';
 import { convert as htmlToText } from 'html-to-text';
 import * as textFormatters from 'html-to-text/lib/formatter';
-import { render } from 'mjml-react';
 import * as openUrl from 'open';
 import { createElement, ReactElement } from 'react';
 import { file as tempFile } from 'tempy';

@@ -21,11 +21,11 @@
   },
   "dependencies": {
     "@aws-sdk/client-sesv2": "^3.218.0",
+    "@faire/mjml-react": "^3.0.0",
     "@nestjs/common": "^7.6.4 || ^8 || ^9",
     "emailjs": "^3.8.1",
     "html-to-text": "^8.2.1",
     "mjml": "^4.13.0",
-    "mjml-react": "^2.0.8",
     "open": "^8.4.0",
     "reflect-metadata": "^0.1.13",
     "tempy": "^1.0.1"
@@ -47,8 +47,9 @@
     "@seedcompany/eslint-plugin": "^3.3.0",
     "@types/html-to-text": "^8.1.1",
     "@types/jest": "^29.2.3",
-    "@types/mjml-react": "^2.0.6",
+    "@types/mjml-core": "^4.7.1",
     "@types/node": "^18.11.9",
+    "@types/react": "^18.0.25",
     "eslint": "^8.28.0",
     "husky": "^4.3.8",
     "jest": "^29.3.1",

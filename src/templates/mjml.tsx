@@ -33,4 +33,4 @@ export {
   // MjmlTitle as Title, we have custom wrap title with context
   MjmlWrapper as Wrapper,
   Mjml,
-} from 'mjml-react';
+} from '@faire/mjml-react';
