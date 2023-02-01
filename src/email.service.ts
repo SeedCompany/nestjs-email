@@ -27,13 +27,14 @@ export class EmailService {
     to: Many<string>,
     template: (props: P) => ReactElement,
     props: P,
+    from?: string,
   ): Promise<void> {
     const { send, open } = this.options;
 
     const msg = await this.render(to, template, props);
 
     if (send) {
-      await this.sendMessage(msg);
+      await this.sendMessage(msg, from);
       return;
     }
     this.logger.debug(
@@ -83,7 +84,7 @@ export class EmailService {
     return message;
   }
 
-  async sendMessage(msg: EmailMessage) {
+  async sendMessage(msg: EmailMessage, from?: string) {
     const encoded = await msg.readAsync();
     const command = new SendEmailCommand({
       Content: {
@@ -91,6 +92,7 @@ export class EmailService {
           Data: Buffer.from(encoded),
         },
       },
+      FromEmailAddress: from,
     });
     try {
       await this.ses.send(command);
