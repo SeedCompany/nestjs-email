@@ -31,10 +31,10 @@ export class EmailService {
   ): Promise<void> {
     const { send, open } = this.options;
 
-    const msg = await this.render(to, template, props);
+    const msg = await this.render(to, template, props, from);
 
     if (send) {
-      await this.sendMessage(msg, from);
+      await this.sendMessage(msg);
       return;
     }
     this.logger.debug(
@@ -52,6 +52,7 @@ export class EmailService {
     to: Many<string>,
     template: (props: P) => ReactElement,
     props: P,
+    from?: string,
   ) {
     const docEl = this.options.wrappers.reduceRight(
       (prev: ReactElement, wrap) => wrap(prev),
@@ -63,7 +64,7 @@ export class EmailService {
     const message = new EmailMessage({
       templateName: template.name,
       to: to as string[],
-      from: this.options.from,
+      from: from || this.options.from,
       ...(!this.options.replyTo || this.options.replyTo.length === 0
         ? {}
         : {
@@ -84,7 +85,7 @@ export class EmailService {
     return message;
   }
 
-  async sendMessage(msg: EmailMessage, from?: string) {
+  async sendMessage(msg: EmailMessage) {
     const encoded = await msg.readAsync();
     const command = new SendEmailCommand({
       Content: {
@@ -92,7 +93,6 @@ export class EmailService {
           Data: Buffer.from(encoded),
         },
       },
-      FromEmailAddress: from,
     });
     try {
       await this.ses.send(command);
