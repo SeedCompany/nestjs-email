@@ -1,3 +1,6 @@
+> [!IMPORTANT]  
+> Moved to https://github.com/SeedCompany/libs/tree/master/packages/email
+
 # @SeedCompany/nestjs-email
 
 A [NestJS](https://nestjs.com/) library to generate emails via JSX and send them via AWS SES
