@@ -27,10 +27,11 @@ export class EmailService {
     to: Many<string>,
     template: (props: P) => ReactElement,
     props: P,
+    from?: string,
   ): Promise<void> {
     const { send, open } = this.options;
 
-    const msg = await this.render(to, template, props);
+    const msg = await this.render(to, template, props, from);
 
     if (send) {
       await this.sendMessage(msg);
@@ -51,6 +52,7 @@ export class EmailService {
     to: Many<string>,
     template: (props: P) => ReactElement,
     props: P,
+    from?: string,
   ) {
     const docEl = this.options.wrappers.reduceRight(
       (prev: ReactElement, wrap) => wrap(prev),
@@ -62,7 +64,7 @@ export class EmailService {
     const message = new EmailMessage({
       templateName: template.name,
       to: to as string[],
-      from: this.options.from,
+      from: from || this.options.from,
       ...(!this.options.replyTo || this.options.replyTo.length === 0
         ? {}
         : {
